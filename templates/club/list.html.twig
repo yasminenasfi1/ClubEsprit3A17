@@ -1,0 +1,77 @@
+<table>
+    <tr>
+        <th>Ref</th>
+        <th>Titre</th>
+        <th>Description</th>
+        <th>Date de début</th>
+        <th>Date fin</th>
+        <th>Nombre de participants</th>
+        <th>Action</th>
+    </tr>
+    {% for p in formation %}
+    <tr>
+        <td>{{ p.ref }}</td>
+        <td>{{ p.Titre | upper}}</td>
+        <td>{{ p.Description }}</td>
+        <td>{{ p.date_debut }}</td>
+        <td>{{ p.date_fin }}</td>
+        <td>{{ p.nb_participants }}</td>
+        <td>{{p["nb_participants"]}}
+            {% if p.nb_participants == 0 %}
+                <a href={{path('app_club',{'nom':p.Titre})}}> <button>Join Us</button>
+                </a>
+            {% endif %}</td>
+    </tr>
+    {% endfor %}
+</table>
+<p>---------------------------------------------------</p>
+<p>Le nombre de formation: {{ formation | length }}</p>
+<p>---------------------------------------------------</p>
+<p>Affichage des titres du formation théorie </p>
+<table>
+    <tr>
+        <th>Titre</th>
+    </tr>
+    {% for p in formation %}
+        {% if p.Description == 'formation theorique' %}
+        <tr>
+
+            <td>{{ p.Titre | upper}}</td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+<p>---------------------------------------------------</p>
+<p>Affichage le titre de la formation ayant le plus grand nombre de participants.</p>
+<table>
+    <tr>
+        <th>Titre</th>
+    </tr>
+
+    {% set tab=[19,0,12] %}
+
+
+    {% for p in formation%}
+        {% if p.nb_participants==max(tab) %}
+            <tr>
+                <td>{{ p.Titre}}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+<p>---------------------------------------------------</p>
+<p>Afficher le nombre total de participants dans toutes les formations..</p>
+{% set participantstotale=0 %}
+{% for list in formation %}
+
+        {% set participantstotale=(list.nb_participants)+participantstotale %}
+{% endfor %}
+{{participantstotale}}
+<p>---------------------------------------------------</p>
+
+{% for p in formation%}
+    {%  if dump(formation) %}
+Tableau est rempli
+{% else %}tableau n'est pas rempli
+    {% endif %}
+{% endfor %}
